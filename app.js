@@ -1,15 +1,27 @@
-var assert = require('assert');
+const assert = require("assert"),
+  request = require("request"),
+  cheerio = require("cheerio");
 
-console.log('test')
+const url = "https://www.naver.com";
 
-describe('Array Test', () => {
-    describe('indexOf() Method', () => {
-        it('return -a when null', () => {
-			assert.equal(-1, [1,2,3].indexOf(0));
-			assert.equal(-1, [1,2,3].indexOf(0));
-			setInterval(() => {
-				
-			}, 1000);
-		});
-	});
-});	
+const body = new Promise((resolve, reject) => {
+  request(url, (err, res, body) => {
+    if (err) return reject(err);
+    return resolve(body);
+  });
+});
+
+const parser = body => {
+  const $ = cheerio.load(body);
+
+  const result = $(".ah_k")
+    .map((i, e) => {
+		if(i>10) return;
+      return $(e).text();
+    })
+    .get()
+    .join(", ");
+  console.log(result);
+};
+
+body.then(body => parser(body));
