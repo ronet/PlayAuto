@@ -1,5 +1,4 @@
-const assert = require("assert"),
-  request = require("request"),
+const request = require("request"),
   cheerio = require("cheerio");
 
 const url = "https://www.naver.com";
@@ -16,7 +15,7 @@ const parser = body => {
 
   const result = $(".ah_k")
     .map((i, e) => {
-		if(i>10) return;
+      if (i > 9) return;
       return $(e).text();
     })
     .get()
