@@ -15,7 +15,7 @@ const crawling = async () => {
 
   const $ = cheerio.load(body);
 
-  const result = await $(".ah_k")
+  const result = $(".ah_k")
     .map((i, e) => {
       if (i > 9) return;
       return $(e).text();
@@ -23,29 +23,7 @@ const crawling = async () => {
     .get()
     .join(", ");
 
-  console.log(result);
+  return console.log(result);
 };
 
 crawling();
-
-// const body = new Promise((resolve, reject) => {
-//   request(url, (err, res, body) => {
-//     if (err) return reject(err);
-//     return resolve(body);
-//   });
-// });
-
-// const parser = body => {
-//   const $ = cheerio.load(body);
-
-//   const result = $(".ah_k")
-//     .map((i, e) => {
-//       if (i > 9) return;
-//       return $(e).text();
-//     })
-//     .get()
-//     .join(", ");
-//   console.log(result);
-// };
-
-// body.then(body => parser(body));
