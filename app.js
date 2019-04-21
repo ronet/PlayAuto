@@ -4,8 +4,7 @@ const request = require("request"),
 const url = "https://www.naver.com";
 
 console.log("app start");
-
-const crawling = async () => {
+(async () => {
   console.log("crawling start");
   const body = await new Promise((resolve, reject) => {
     request(url, (err, res, body) => {
@@ -15,15 +14,16 @@ const crawling = async () => {
 
   const $ = cheerio.load(body);
 
-  const result = $(".ah_k")
-    .map((i, e) => {
-      if (i > 9) return;
-      return $(e).text();
-    })
-    .get()
-    .join(", ");
+  const parser = await Promise.all(
+    $(".ah_k")
+      .map((i, e) => {
+        if (i > 9) return;
+        return $(e).text();
+      })
+      .get()
+  );
+
+  const result = parser.join(", ");
 
   return console.log(result);
-};
-
-crawling();
+})();
