@@ -1,29 +1,9 @@
-const request = require("request"),
-  cheerio = require("cheerio");
+const crawler = require("./crawler");
 
-const url = "https://www.naver.com";
+const app = async () => {
+  console.log("app start");
+  const result = await crawler();
+  console.log(result);
+};
 
-console.log("app start");
-(async () => {
-  console.log("crawling start");
-  const body = await new Promise((resolve, reject) => {
-    request(url, (err, res, body) => {
-      return resolve(body);
-    });
-  });
-
-  const $ = cheerio.load(body);
-
-  const parser = await Promise.all(
-    $(".ah_k")
-      .map((i, e) => {
-        if (i > 9) return;
-        return $(e).text();
-      })
-      .get()
-  );
-
-  const result = parser.join(", ");
-
-  return console.log(result);
-})();
+app();
