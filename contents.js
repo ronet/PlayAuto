@@ -4,7 +4,9 @@ const request = require("request"),
 module.exports = async args => {
   console.log("Contents crawling start");
 
-  return Promise.all(args.map(async keyword => {
+  const list = args;
+
+  for (const keyword of list) {
     const url = keyword.url;
     const body = await new Promise((resolve, reject) => {
       request(url, (err, res, body) => {
@@ -14,8 +16,9 @@ module.exports = async args => {
 
     const $ = cheerio.load(body);
 
-    return $("._related_keyword_ul li a").map((i, e) => {
-      return $(e).text();
-    }).get();
-  }));
+    $("._related_keyword_ul li a").map((i, e) => {
+      if (keyword.contents.length < 10) return keyword.contents.push($(e).text());
+    });
+  }
+  return list;
 };
