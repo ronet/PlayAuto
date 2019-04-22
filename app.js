@@ -1,9 +1,12 @@
-const crawler = require("./crawler");
+const keyword = require("./keyword"),
+  contents = require("./contents");
 
 const app = async () => {
   console.log("app start");
-  const result = await crawler();
-  console.log(result);
+  const keywordResult = await keyword();
+  // console.log("keyword : ", keywordResult);
+  const contentsResult = await contents(keywordResult);
+  console.log("contents : ", contentsResult);
 };
 
 app();

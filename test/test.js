@@ -1,9 +1,17 @@
-const assert = require("assert");
-const crawler = require("../crawler");
+const assert = require("assert"),
+  keyword = require("../keyword"),
+  contents = require("../contents");
 
-describe("crawler", () => {
-  it("will return string", async () => {
-    const result = await crawler();
-    assert.equal(typeof result, "string");
+describe("keyword", () => {
+  it("will return object", async () => {
+    assert.notEqual(typeof result, "string");
+  });
+});
+
+describe("contents", () => {
+  const result1 = keyword();
+  it("will return array", async () => {
+    const result = await contents(result1);
+    assert.equal(typeof result, "object");
   });
 });
